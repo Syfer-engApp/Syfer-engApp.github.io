@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - Ultimate Productivity App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    :root {
+      --neon-blue: #00f3ff;
+      --neon-pink: #ff00ff;
+      --neon-purple: #9333ea;
+      --neon-green: #39ff14;
+      --text: #ffffff;
+      --text-muted: #a1a1aa;
+      --background: #000000;
+      --card: rgba(24, 24, 27, 0.8);
+      --border: #3f3f46;
+      --glow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
+    }
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Enhanced animated particles background */
+    #particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+      filter: blur(1px);
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(50vh) translateX(calc(var(--drift) * 1vw)) scale(0.8);
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-50px) translateX(calc(var(--drift) * 2vw)) scale(0.2);
+        opacity: 0;
+      }
+    }
+    
+    /* Glowing grid background */
+    .grid-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(147, 51, 234, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(147, 51, 234, 0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      animation: gridPulse 8s infinite alternate;
+      pointer-events: none;
+    }
+    
+    @keyframes gridPulse {
+      0% {
+        opacity: 0.3;
+        background-size: 40px 40px;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 0.3;
+        background-size: 50px 50px;
+      }
+    }
+
+    /* App showcase */
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .app-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .app-name {
+      font-size: 5rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(to right, var(--neon-blue), var(--neon-pink), var(--neon-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
+      animation: textGlow 3s infinite alternate;
+    }
+    
+    @keyframes textGlow {
+      0% {
+        filter: drop-shadow(0 0 5px rgba(147, 51, 234, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.7));
+      }
+      100% {
+        filter: drop-shadow(0 0 5px rgba(255, 0, 255, 0.5));
+      }
+    }
+    
+    .app-slogan {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      animation: pulse 4s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% {
+        opacity: 0.7;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Enhanced app image with 3D effect */
+    .app-image-container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      height: 450px;
+      border-radius: 20px;
+      margin-bottom: 3rem;
+      overflow: hidden;
+      box-shadow: var(--glow);
+      cursor: pointer;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      animation: floatImage 6s ease-in-out infinite;
+    }
+    
+    @keyframes floatImage {
+      0% {
+        transform: translateY(0) rotateX(2deg);
+        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
+      }
+      50% {
+        transform: translateY(-15px) rotateX(-2deg);
+        box-shadow: 0 0 20px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.5);
+      }
+      100% {
+        transform: translateY(0) rotateX(2deg);
+        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
+      }
+    }
+    
+    .parallax-layers {
+      position: absolute;
+      width: 110%;
+      height: 110%;
+      top: -5%;
+      left: -5%;
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out;
+    }
+    
+    .app-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1581472723648-909f4851d4ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600&q=90');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8) saturate(1.8) contrast(1.2);
+      transform: translateZ(0px);
+      transition: transform 0.3s ease;
+    }
+    
+    .app-image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.4) 0%, rgba(0, 243, 255, 0.2) 100%);
+      opacity: 0.7;
+      mix-blend-mode: overlay;
+      transform: translateZ(20px);
+      animation: overlayPulse 8s infinite alternate;
+    }
+    
+    @keyframes overlayPulse {
+      0% {
+        opacity: 0.5;
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.4) 0%, rgba(0, 243, 255, 0.2) 100%);
+      }
+      50% {
+        opacity: 0.7;
+        background: linear-gradient(135deg, rgba(255, 0, 255, 0.4) 0%, rgba(57, 255, 20, 0.2) 100%);
+      }
+      100% {
+        opacity: 0.5;
+        background: linear-gradient(135deg, rgba(0, 243, 255, 0.4) 0%, rgba(147, 51, 234, 0.2) 100%);
+      }
+    }
+    
+    .app-image-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 0, 255, 0.3) 0%, transparent 70%);
+      filter: blur(20px);
+      mix-blend-mode: screen;
+      transform: translateZ(30px);
+      animation: glowMove 10s infinite alternate;
+    }
+    
+    @keyframes glowMove {
+      0% {
+        background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.4) 0%, transparent 70%);
+      }
+      50% {
+        background: radial-gradient(circle at 70% 50%, rgba(0, 243, 255, 0.4) 0%, transparent 70%);
+      }
+      100% {
+        background: radial-gradient(circle at 40% 70%, rgba(57, 255, 20, 0.4) 0%, transparent 70%);
+      }
+    }
+    
+    .app-image-scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 50%, rgba(147, 51, 234, 0.1) 50%);
+      background-size: 100% 4px;
+      transform: translateZ(10px);
+      pointer-events: none;
+      animation: scanline 8s linear infinite;
+    }
+    
+    @keyframes scanline {
+      0% {
+        transform: translateZ(10px) translateY(0);
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateZ(10px) translateY(100%);
+        opacity: 0.5;
+      }
+    }
+    
+    .app-image-glitch {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      transform: translateZ(15px);
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .glitch-line {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: var(--neon-blue);
+      opacity: 0;
+    }
+
+    /* Enhanced download button */
+    .download-button {
+      position: relative;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue), var(--neon-pink));
+      background-size: 200% 200%;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      box-shadow: var(--glow);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1;
+      animation: gradientMove 5s ease infinite, buttonPulse 2s infinite alternate;
+    }
+    
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    @keyframes buttonPulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.05);
+      }
+    }
+    
+    .download-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(147, 51, 234, 0.5);
+      animation: gradientMove 3s ease infinite;
+    }
+    
+    .download-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: 0.5s;
+      z-index: -1;
+    }
+    
+    .download-button:hover::before {
+      left: 100%;
+    }
+    
+    .download-icon {
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-5px);
+      }
+      60% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* Enhanced GitHub button */
+    .github-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--card);
+      border: 2px solid var(--neon-purple);
+      box-shadow: var(--glow);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      animation: borderGlow 3s infinite alternate;
+    }
+    
+    @keyframes borderGlow {
+      0% {
+        border-color: var(--neon-purple);
+        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
+      }
+      50% {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 243, 255, 0.5);
+      }
+      100% {
+        border-color: var(--neon-pink);
+        box-shadow: 0 0 10px var(--neon-pink), 0 0 20px rgba(255, 0, 255, 0.5);
+      }
+    }
+    
+    .github-button:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(147, 51, 234, 0.5);
+    }
+    
+    .github-icon {
+      width: 32px;
+      height: 32px;
+      fill: white;
+      transition: all 0.3s ease;
+    }
+    
+    /* Cyberpunk-style decorative elements */
+    .corner-decoration {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+    
+    .corner-decoration.top-left {
+      top: 0;
+      left: 0;
+      border-top: 2px solid var(--neon-blue);
+      border-left: 2px solid var(--neon-blue);
+      border-top-left-radius: 10px;
+    }
+    
+    .corner-decoration.top-right {
+      top: 0;
+      right: 0;
+      border-top: 2px solid var(--neon-pink);
+      border-right: 2px solid var(--neon-pink);
+      border-top-right-radius: 10px;
+    }
+    
+    .corner-decoration.bottom-left {
+      bottom: 0;
+      left: 0;
+      border-bottom: 2px solid var(--neon-green);
+      border-left: 2px solid var(--neon-green);
+      border-bottom-left-radius: 10px;
+    }
+    
+    .corner-decoration.bottom-right {
+      bottom: 0;
+      right: 0;
+      border-bottom: 2px solid var(--neon-purple);
+      border-right: 2px solid var(--neon-purple);
+      border-bottom-right-radius: 10px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .app-name {
+        font-size: 3.5rem;
+      }
+      .app-slogan {
+        font-size: 1.2rem;
+      }
+      .app-image-container {
+        height: 350px;
+      }
+      .download-button {
+        padding: 0.8rem 2rem;
+        font-size: 1.2rem;
+      }
+      .corner-decoration {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .app-name {
+        font-size: 2.5rem;
+      }
+      .app-slogan {
+        font-size: 1rem;
+      }
+      .app-image-container {
+        height: 250px;
+      }
+      .download-button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+      .github-button {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+      }
+      .github-icon {
+        width: 25px;
+        height: 25px;
+      }
+      .corner-decoration {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Enhanced Particles Background -->
+  <div id="particles-container"></div>
+  
+  <!-- Grid Background -->
+  <div class="grid-background"></div>
+  
+  <!-- Decorative Corner Elements -->
+  <div class="corner-decoration top-left"></div>
+  <div class="corner-decoration top-right"></div>
+  <div class="corner-decoration bottom-left"></div>
+  <div class="corner-decoration bottom-right"></div>
+
+  <!-- App Showcase -->
+  <div class="app-container">
+    <div class="app-header">
+      <h1 class="app-name">NEXUS</h1>
+      <p class="app-slogan">The Ultimate Productivity Solution</p>
+    </div>
+    
+    <div class="app-image-container" id="appImage">
+      <div class="parallax-layers" id="parallaxLayers">
+        <div class="app-image"></div>
+        <div class="app-image-overlay"></div>
+        <div class="app-image-glow"></div>
+        <div class="app-image-scanline"></div>
+        <div class="app-image-glitch" id="glitchEffect"></div>
+      </div>
+    </div>
+    
+    <button class="download-button">
+      <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Download Now
+    </button>
+  </div>
+
+  <!-- GitHub Button -->
+  <a href="https://github.com/syfer-eng" target="_blank" class="github-button">
+    <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+    </svg>
+  </a>
+
+  <script>
+    // Enhanced particles system
+    const particlesContainer = document.getElementById('particles-container');
+    const particleCount = 100; // Increased number of particles
+    
+    // Create initial particles
+    for (let i = 0; i < particleCount; i++) {
+      createParticle();
+    }
+    
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      // Enhanced random properties
+      const size = Math.random() * 8 + 2; // Particle size between 2-10px
+      const posX = Math.random() * 100; // Position X (%)
+      const drift = Math.random() * 10 - 5; // Horizontal drift (-5 to 5)
+      const duration = Math.random() * 20 + 15; // Animation duration 15-35s
+      const delay = Math.random() * 10; // Animation delay 0-10s
+      
+      // Enhanced color palette
+      const colors = [
+        'rgba(147, 51, 234, 0.7)',  // Purple
+        'rgba(0, 243, 255, 0.7)',    // Blue
+        'rgba(255, 0, 255, 0.7)',    // Pink
+        'rgba(57, 255, 20, 0.7)',    // Green
+        'rgba(59, 130, 246, 0.7)'    // Another blue
+      ];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      // Apply styles
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}%`;
+      particle.style.bottom = `-${size}px`;
+      particle.style.backgroundColor = color;
+      particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+      particle.style.opacity = (Math.random() * 0.3 + 0.1).toString(); // Opacity 0.1-0.4
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      particle.style.setProperty('--drift', drift);
+      
+      particlesContainer.appendChild(particle);
+      
+      // Remove and recreate particle after animation
+      particle.addEventListener('animationend', function() {
+        particle.remove();
+        createParticle();
+      });
+    }
+    
+    // Enhanced parallax effect for the app image
+    const appImage = document.getElementById('appImage');
+    const parallaxLayers = document.getElementById('parallaxLayers');
+    
+    // Track mouse movement over the image with enhanced sensitivity
+    appImage.addEventListener('mousemove', function(e) {
+      // Get position of mouse relative to the center of the element
+      const rect = appImage.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Calculate offset from center in percentage (-50 to 50)
+      const offsetX = ((e.clientX - centerX) / rect.width) * 100;
+      const offsetY = ((e.clientY - centerY) / rect.height) * 100;
+      
+      // Enhanced movement for more dramatic effect
+      parallaxLayers.style.transform = `translate(${-offsetX / 3}px, ${-offsetY / 3}px) rotateX(${offsetY / 8}deg) rotateY(${-offsetX / 8}deg) scale(1.05)`;
+    });
+    
+    // Reset position when mouse leaves
+    appImage.addEventListener('mouseleave', function() {
+      parallaxLayers.style.transform = 'translate(0, 0) rotateX(0) rotateY(0) scale(1)';
+    });
+    
+    // Add subtle animation when the image is hovered
+    appImage.addEventListener('mouseenter', function() {
+      parallaxLayers.style.transition = 'transform 0.2s ease-out';
+    });
+    
+    // Create glitch effect
+    const glitchEffect = document.getElementById('glitchEffect');
+    
+    function createGlitchLines() {
+      // Clear previous lines
+      glitchEffect.innerHTML = '';
+      
+      // Create random number of glitch lines
+      const lineCount = Math.floor(Math.random() * 5) + 3;
+      
+      for (let i = 0; i < lineCount; i++) {
+        const line = document.createElement('div');
+        line.classList.add('glitch-line');
+        
+        // Random position and height
+        const posY = Math.random() * 100;
+        const height = Math.random() * 3 + 1;
+        
+        // Apply styles
+        line.style.top = `${posY}%`;
+        line.style.height = `${height}px`;
+        line.style.opacity = Math.random() * 0.7 + 0.3;
+        
+        glitchEffect.appendChild(line);
+        
+        // Animate the line
+        setTimeout(() => {
+          line.style.opacity = 0;
+        }, Math.random() * 200 + 50);
+      }
+    }
+    
+    // Trigger glitch effect randomly
+    function triggerGlitch() {
+      if (Math.random() > 0.7) {
+        createGlitchLines();
+        
+        // Add temporary filter to the image
+        const appImage = document.querySelector('.app-image');
+        appImage.style.filter = 'brightness(1.2) contrast(1.5) hue-rotate(5deg)';
+        
+        setTimeout(() => {
+          appImage.style.filter = 'brightness(0.8) saturate(1.8) contrast(1.2)';
+        }, 100);
+      }
+      
+      // Schedule next glitch
+      setTimeout(triggerGlitch, Math.random() * 3000 + 1000);
+    }
+    
+    // Start glitch effect
+    triggerGlitch();
+    
+    // GitHub button animation
+    const githubButton = document.querySelector('.github-button');
+    
+    githubButton.addEventListener('mouseenter', function() {
+      this.querySelector('.github-icon').style.transform = 'rotate(360deg) scale(1.2)';
+    });
+    
+    githubButton.addEventListener('mouseleave', function() {
+      this.querySelector('.github-icon').style.transform = 'rotate(0) scale(1)';
+    });
+    
+    // Add interactive hover effect to download button
+    const downloadButton = document.querySelector('.download-button');
+    
+    downloadButton.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Create radial gradient that follows cursor
+      this.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--neon-pink), var(--neon-purple) 60%, var(--neon-blue))`;
+    });
+    
+    downloadButton.addEventListener('mouseleave', function() {
+      // Reset to original gradient
+      this.style.background = 'linear-gradient(45deg, var(--neon-purple), var(--neon-blue), var(--neon-pink))';
+      this.style.backgroundSize = '200% 200%';
+    });
+    
+    // Add pulse animation to corner decorations
+    const cornerDecorations = document.querySelectorAll('.corner-decoration');
+    
+    cornerDecorations.forEach((corner, index) => {
+      // Add staggered animation
+      corner.style.animation = `cornerPulse 3s ${index * 0.5}s infinite alternate`;
+    });
+    
+    // Create keyframe animation for corners
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule(`
+      @keyframes cornerPulse {
+        0% {
+          opacity: 0.3;
+          box-shadow: none;
+        }
+        100% {
+          opacity: 0.7;
+          box-shadow: 0 0 15px currentColor;
+        }
+      }
+    `, styleSheet.cssRules.length);
+    
+    // Add interactive grid background effect
+    const gridBackground = document.querySelector('.grid-background');
+    
+    document.addEventListener('mousemove', function(e) {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      // Subtle perspective shift based on mouse position
+      gridBackground.style.transform = `perspective(1000px) rotateX(${y * 5 - 2.5}deg) rotateY(${x * 5 - 2.5}deg)`;
+    });
+    
+    // Add scroll-triggered animations
+    window.addEventListener('scroll', function() {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // Adjust particle speed based on scroll
+      const particles = document.querySelectorAll('.particle');
+      particles.forEach(particle => {
+        const speed = 1 + (scrollPosition / windowHeight) * 0.5;
+        particle.style.animationDuration = `${parseFloat(particle.style.animationDuration) / speed}s`;
+      });
+      
+      // Parallax effect for app container
+      const appContainer = document.querySelector('.app-container');
+      appContainer.style.transform = `translateY(${scrollPosition * 0.1}px)`;
+    });
+    
+    // Add typing effect to slogan
+    const slogan = document.querySelector('.app-slogan');
+    const sloganText = slogan.textContent;
+    slogan.textContent = '';
+    
+    function typeSlogan(index = 0) {
+      if (index < sloganText.length) {
+        slogan.textContent += sloganText.charAt(index);
+        setTimeout(() => typeSlogan(index + 1), 50);
+      }
+    }
+    
+    // Start typing effect after a short delay
+    setTimeout(typeSlogan, 1000);
+    
+    // Add click effect to download button
+    downloadButton.addEventListener('click', function(e) {
+      // Create ripple effect
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      
+      ripple.classList.add('active');
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 500);
+      
+      // Add download animation
+      const downloadIcon = this.querySelector('svg');
+      downloadIcon.style.animation = 'downloadStart 1s forwards';
+      
+      // Reset animation after completion
+      setTimeout(() => {
+        downloadIcon.style.animation = 'bounce 2s infinite';
+      }, 1000);
+    });
+    
+    // Add ripple style
+    styleSheet.insertRule(`
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(0);
+        animation: ripple 0.5s linear;
+        pointer-events: none;
+      }
+    `, styleSheet.cssRules.length);
+    
+    styleSheet.insertRule(`
+      @keyframes ripple {
+        to {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+    `, styleSheet.cssRules.length);
+    
+    styleSheet.insertRule(`
+      @keyframes downloadStart {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(5px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+    `, styleSheet.cssRules.length);
+    
+    // Create random star effect in the background
+    function createStars() {
+      const starsContainer = document.createElement('div');
+      starsContainer.classList.add('stars-container');
+      starsContainer.style.position = 'fixed';
+      starsContainer.style.top = '0';
+      starsContainer.style.left = '0';
+      starsContainer.style.width = '100%';
+      starsContainer.style.height = '100%';
+      starsContainer.style.pointerEvents = 'none';
+      starsContainer.style.zIndex = '-1';
+      document.body.appendChild(starsContainer);
+      
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // Random position
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        
+        // Random size
+        const size = Math.random() * 2 + 1;
+        
+        // Apply styles
+        star.style.position = 'absolute';
+        star.style.left = `${posX}%`;
+        star.style.top = `${posY}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.borderRadius = '50%';
+        star.style.backgroundColor = 'white';
+        star.style.opacity = Math.random() * 0.5 + 0.3;
+        
+        // Add twinkling animation
+        star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite alternate`;
+        
+        starsContainer.appendChild(star);
+      }
+      
+      // Add twinkling animation
+      styleSheet.insertRule(`
+        @keyframes twinkle {
+          0% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          100% {
+            opacity: 0.8;
+            transform: scale(1.2);
+          }
+        }
+      `, styleSheet.cssRules.length);
+    }
+    
+    createStars();
+  </script>
+</body>
+</html>
