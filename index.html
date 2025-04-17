@@ -2,951 +2,1784 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus - Ultimate Productivity App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>FortniteX DMA - Advanced Gameplay Enhancement Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    /* Tailwind-like utilities and custom styles */
+    :root {
+      --primary: hsl(205, 100%, 50%);
+      --primary-light: hsl(205, 100%, 70%);
+      --primary-dark: hsl(205, 100%, 40%);
+      --accent: hsl(150, 100%, 50%);
+      --accent-light: hsl(150, 100%, 70%);
+      --accent-dark: hsl(150, 100%, 40%);
+      --background: #000;
+      --foreground: #fff;
+      --card: #141414;
+      --card-foreground: #fff;
+      --border: #333;
+      --muted: #666;
+      --muted-foreground: #999;
+      --warning: #FFB800;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    }
-    :root {
-      --neon-blue: #00f3ff;
-      --neon-pink: #ff00ff;
-      --neon-purple: #9333ea;
-      --neon-green: #39ff14;
-      --text: #ffffff;
-      --text-muted: #a1a1aa;
-      --background: #000000;
-      --card: rgba(24, 24, 27, 0.8);
-      --border: #3f3f46;
-      --glow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
-    }
-    body {
-      background-color: var(--background);
-      color: var(--text);
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    /* Enhanced animated particles background */
-    #particles-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      animation: floatUp linear infinite;
-      filter: blur(1px);
-      pointer-events: none;
-    }
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) translateX(0) scale(1);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateY(50vh) translateX(calc(var(--drift) * 1vw)) scale(0.8);
-      }
-      90% {
-        opacity: 0.3;
-      }
-      100% {
-        transform: translateY(-50px) translateX(calc(var(--drift) * 2vw)) scale(0.2);
-        opacity: 0;
-      }
-    }
-    
-    /* Glowing grid background */
-    .grid-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        linear-gradient(rgba(147, 51, 234, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(147, 51, 234, 0.1) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: -1;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-      animation: gridPulse 8s infinite alternate;
-      pointer-events: none;
-    }
-    
-    @keyframes gridPulse {
-      0% {
-        opacity: 0.3;
-        background-size: 40px 40px;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      100% {
-        opacity: 0.3;
-        background-size: 50px 50px;
-      }
     }
 
-    /* App showcase */
-    .app-container {
-      position: relative;
-      z-index: 1;
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--foreground);
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
       width: 100%;
       max-width: 1200px;
-      padding: 2rem;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .flex {
       display: flex;
+    }
+
+    .flex-col {
       flex-direction: column;
+    }
+
+    .items-center {
       align-items: center;
     }
-    .app-header {
-      text-align: center;
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .grid {
+      display: grid;
+    }
+
+    .gap-2 {
+      gap: 0.5rem;
+    }
+
+    .gap-4 {
+      gap: 1rem;
+    }
+
+    .gap-6 {
+      gap: 1.5rem;
+    }
+
+    .gap-8 {
+      gap: 2rem;
+    }
+
+    .m-1 {
+      margin: 0.25rem;
+    }
+
+    .m-2 {
+      margin: 0.5rem;
+    }
+
+    .m-4 {
+      margin: 1rem;
+    }
+
+    .my-2 {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .my-4 {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .my-8 {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .mt-1 {
+      margin-top: 0.25rem;
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+
+    .mt-8 {
+      margin-top: 2rem;
+    }
+
+    .mb-1 {
+      margin-bottom: 0.25rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+
+    .mb-12 {
       margin-bottom: 3rem;
-      animation: fadeInUp 1s ease-out;
     }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+
+    .mr-2 {
+      margin-right: 0.5rem;
     }
-    
-    .app-name {
-      font-size: 5rem;
-      font-weight: 900;
-      letter-spacing: 3px;
-      background: linear-gradient(to right, var(--neon-blue), var(--neon-pink), var(--neon-green));
+
+    .mr-4 {
+      margin-right: 1rem;
+    }
+
+    .ml-1 {
+      margin-left: 0.25rem;
+    }
+
+    .ml-2 {
+      margin-left: 0.5rem;
+    }
+
+    .p-2 {
+      padding: 0.5rem;
+    }
+
+    .p-4 {
+      padding: 1rem;
+    }
+
+    .p-5 {
+      padding: 1.25rem;
+    }
+
+    .p-6 {
+      padding: 1.5rem;
+    }
+
+    .p-8 {
+      padding: 2rem;
+    }
+
+    .px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .px-6 {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .px-8 {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .py-4 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .py-6 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .py-8 {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .py-10 {
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
+
+    .py-16 {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .py-20 {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+
+    .pt-20 {
+      padding-top: 5rem;
+    }
+
+    .pt-28 {
+      padding-top: 7rem;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .h-8 {
+      height: 2rem;
+    }
+
+    .h-10 {
+      height: 2.5rem;
+    }
+
+    .h-12 {
+      height: 3rem;
+    }
+
+    .h-16 {
+      height: 4rem;
+    }
+
+    .h-32 {
+      height: 8rem;
+    }
+
+    .h-64 {
+      height: 16rem;
+    }
+
+    .max-w-xs {
+      max-width: 20rem;
+    }
+
+    .max-w-sm {
+      max-width: 24rem;
+    }
+
+    .max-w-md {
+      max-width: 28rem;
+    }
+
+    .max-w-lg {
+      max-width: 32rem;
+    }
+
+    .max-w-xl {
+      max-width: 36rem;
+    }
+
+    .max-w-2xl {
+      max-width: 42rem;
+    }
+
+    .max-w-3xl {
+      max-width: 48rem;
+    }
+
+    .max-w-4xl {
+      max-width: 56rem;
+    }
+
+    .max-w-5xl {
+      max-width: 64rem;
+    }
+
+    .max-w-6xl {
+      max-width: 72rem;
+    }
+
+    .max-w-7xl {
+      max-width: 80rem;
+    }
+
+    .rounded-sm {
+      border-radius: 0.125rem;
+    }
+
+    .rounded {
+      border-radius: 0.25rem;
+    }
+
+    .rounded-md {
+      border-radius: 0.375rem;
+    }
+
+    .rounded-lg {
+      border-radius: 0.5rem;
+    }
+
+    .rounded-xl {
+      border-radius: 0.75rem;
+    }
+
+    .rounded-2xl {
+      border-radius: 1rem;
+    }
+
+    .rounded-full {
+      border-radius: 9999px;
+    }
+
+    .border {
+      border: 1px solid var(--border);
+    }
+
+    .border-t {
+      border-top: 1px solid var(--border);
+    }
+
+    .border-b {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .shadow-sm {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .shadow {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .shadow-md {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .shadow-xl {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .bg-transparent {
+      background-color: transparent;
+    }
+
+    .bg-black {
+      background-color: #000;
+    }
+
+    .bg-white {
+      background-color: #fff;
+    }
+
+    .bg-gray-800 {
+      background-color: #1f2937;
+    }
+
+    .bg-gray-900 {
+      background-color: #111827;
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+    }
+
+    .text-base {
+      font-size: 1rem;
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+
+    .text-3xl {
+      font-size: 1.875rem;
+    }
+
+    .text-4xl {
+      font-size: 2.25rem;
+    }
+
+    .text-5xl {
+      font-size: 3rem;
+    }
+
+    .text-6xl {
+      font-size: 3.75rem;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .text-white {
+      color: #fff;
+    }
+
+    .text-black {
+      color: #000;
+    }
+
+    .text-gray-400 {
+      color: #9ca3af;
+    }
+
+    .text-gray-600 {
+      color: #4b5563;
+    }
+
+    .text-gray-800 {
+      color: #1f2937;
+    }
+
+    .text-primary {
+      color: var(--primary);
+    }
+
+    .text-accent {
+      color: var(--accent);
+    }
+
+    .text-warning {
+      color: var(--warning);
+    }
+
+    .z-10 {
+      z-index: 10;
+    }
+
+    .z-20 {
+      z-index: 20;
+    }
+
+    .z-50 {
+      z-index: 50;
+    }
+
+    /* Custom classes for the Fortnite DMA page */
+    .bg-gradient-primary {
+      background: linear-gradient(to bottom right, rgba(0, 163, 255, 0.05), rgba(0, 255, 140, 0.05));
+    }
+
+    .bg-grid-pattern {
+      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .bg-primary-glow {
+      background: rgba(0, 163, 255, 0.2);
+    }
+
+    .bg-accent-glow {
+      background: rgba(0, 255, 140, 0.2);
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, #00A3FF, #00FF8C);
       -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
-      animation: textGlow 3s infinite alternate;
-    }
-    
-    @keyframes textGlow {
-      0% {
-        filter: drop-shadow(0 0 5px rgba(147, 51, 234, 0.5));
-      }
-      50% {
-        filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.7));
-      }
-      100% {
-        filter: drop-shadow(0 0 5px rgba(255, 0, 255, 0.5));
-      }
-    }
-    
-    .app-slogan {
-      font-size: 1.5rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      animation: pulse 4s infinite alternate;
-    }
-    
-    @keyframes pulse {
-      0% {
-        opacity: 0.7;
-      }
-      100% {
-        opacity: 1;
-      }
     }
 
-    /* Enhanced app image with 3D effect */
-    .app-image-container {
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      height: 450px;
-      border-radius: 20px;
-      margin-bottom: 3rem;
-      overflow: hidden;
-      box-shadow: var(--glow);
-      cursor: pointer;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-      animation: floatImage 6s ease-in-out infinite;
-    }
-    
-    @keyframes floatImage {
-      0% {
-        transform: translateY(0) rotateX(2deg);
-        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
-      }
-      50% {
-        transform: translateY(-15px) rotateX(-2deg);
-        box-shadow: 0 0 20px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.5);
-      }
-      100% {
-        transform: translateY(0) rotateX(2deg);
-        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
-      }
-    }
-    
-    .parallax-layers {
-      position: absolute;
-      width: 110%;
-      height: 110%;
-      top: -5%;
-      left: -5%;
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease-out;
-    }
-    
-    .app-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://images.unsplash.com/photo-1581472723648-909f4851d4ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600&q=90');
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.8) saturate(1.8) contrast(1.2);
-      transform: translateZ(0px);
-      transition: transform 0.3s ease;
-    }
-    
-    .app-image-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(147, 51, 234, 0.4) 0%, rgba(0, 243, 255, 0.2) 100%);
-      opacity: 0.7;
-      mix-blend-mode: overlay;
-      transform: translateZ(20px);
-      animation: overlayPulse 8s infinite alternate;
-    }
-    
-    @keyframes overlayPulse {
-      0% {
-        opacity: 0.5;
-        background: linear-gradient(135deg, rgba(147, 51, 234, 0.4) 0%, rgba(0, 243, 255, 0.2) 100%);
-      }
-      50% {
-        opacity: 0.7;
-        background: linear-gradient(135deg, rgba(255, 0, 255, 0.4) 0%, rgba(57, 255, 20, 0.2) 100%);
-      }
-      100% {
-        opacity: 0.5;
-        background: linear-gradient(135deg, rgba(0, 243, 255, 0.4) 0%, rgba(147, 51, 234, 0.2) 100%);
-      }
-    }
-    
-    .app-image-glow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(255, 0, 255, 0.3) 0%, transparent 70%);
-      filter: blur(20px);
-      mix-blend-mode: screen;
-      transform: translateZ(30px);
-      animation: glowMove 10s infinite alternate;
-    }
-    
-    @keyframes glowMove {
-      0% {
-        background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.4) 0%, transparent 70%);
-      }
-      50% {
-        background: radial-gradient(circle at 70% 50%, rgba(0, 243, 255, 0.4) 0%, transparent 70%);
-      }
-      100% {
-        background: radial-gradient(circle at 40% 70%, rgba(57, 255, 20, 0.4) 0%, transparent 70%);
-      }
-    }
-    
-    .app-image-scanline {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, transparent 50%, rgba(147, 51, 234, 0.1) 50%);
-      background-size: 100% 4px;
-      transform: translateZ(10px);
-      pointer-events: none;
-      animation: scanline 8s linear infinite;
-    }
-    
-    @keyframes scanline {
-      0% {
-        transform: translateZ(10px) translateY(0);
-        opacity: 0.5;
-      }
-      50% {
-        opacity: 0.2;
-      }
-      100% {
-        transform: translateZ(10px) translateY(100%);
-        opacity: 0.5;
-      }
-    }
-    
-    .app-image-glitch {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      transform: translateZ(15px);
-      pointer-events: none;
-      overflow: hidden;
-    }
-    
-    .glitch-line {
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      background-color: var(--neon-blue);
-      opacity: 0;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.2s;
+      font-size: 1rem;
+      text-align: center;
     }
 
-    /* Enhanced download button */
-    .download-button {
-      position: relative;
-      padding: 1.2rem 3.5rem;
-      font-size: 1.5rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue), var(--neon-pink));
-      background-size: 200% 200%;
+    .btn-primary {
+      background-color: #00A3FF;
       color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0082CC;
+    }
+
+    .btn-accent {
+      background-color: #00FF8C;
+      color: black;
+    }
+
+    .btn-accent:hover {
+      background-color: #00CC70;
+    }
+
+    .btn-outline {
+      background-color: #111;
+      border: 1px solid #333;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background-color: #222;
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+    }
+
+    .card {
+      background-color: var(--card);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
       overflow: hidden;
-      box-shadow: var(--glow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 163, 255, 0.3);
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    .feature-icon {
+      height: 3rem;
+      width: 3rem;
+      border-radius: 0.5rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      z-index: 1;
-      animation: gradientMove 5s ease infinite, buttonPulse 2s infinite alternate;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
-    
-    @keyframes gradientMove {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
     }
-    
-    @keyframes buttonPulse {
-      0% {
-        transform: scale(1);
-      }
-      100% {
-        transform: scale(1.05);
-      }
+
+    .feature-list li i {
+      color: #00FF8C;
+      margin-right: 0.5rem;
+      margin-top: 0.25rem;
     }
-    
-    .download-button:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(147, 51, 234, 0.5);
-      animation: gradientMove 3s ease infinite;
+
+    .setup-step {
+      display: flex;
+      margin-bottom: 1.5rem;
     }
-    
-    .download-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+
+    .setup-step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: rgba(0, 163, 255, 0.2);
+      color: #00A3FF;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .faq-item {
+      background-color: var(--card);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .faq-question {
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: 0.5s;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--foreground);
+      font-weight: 500;
+      font-size: 1.125rem;
+      cursor: pointer;
+    }
+
+    .faq-question:focus {
+      outline: none;
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      color: var(--muted-foreground);
+    }
+
+    .faq-answer.hidden {
+      display: none;
+    }
+
+    .console-panel {
+      background-color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      color: white;
+      overflow-x: auto;
+    }
+
+    .console-comment {
+      color: #00FF8C;
+    }
+
+    .console-value {
+      color: #00A3FF;
+    }
+
+    .console-warning {
+      color: #FFB800;
+    }
+
+    .console-success {
+      color: #00FF8C;
+    }
+
+    .blur-circle {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(3rem);
       z-index: -1;
     }
-    
-    .download-button:hover::before {
-      left: 100%;
-    }
-    
-    .download-icon {
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-5px);
-      }
-      60% {
-        transform: translateY(-3px);
-      }
+
+    .blur-primary {
+      background-color: rgba(0, 163, 255, 0.2);
     }
 
-    /* Enhanced GitHub button */
-    .github-button {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: var(--card);
-      border: 2px solid var(--neon-purple);
-      box-shadow: var(--glow);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 10;
-      animation: borderGlow 3s infinite alternate;
+    .blur-accent {
+      background-color: rgba(0, 255, 140, 0.2);
     }
-    
-    @keyframes borderGlow {
+
+    .section {
+      padding: 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-dark {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .section-darker {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      transition: all 0.3s;
+    }
+
+    .navbar-scrolled {
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+      padding: 0 1.5rem;
+    }
+
+    .navbar-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .navbar-menu a {
+      padding: 0.5rem 0.75rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .navbar-menu a:hover {
+      color: #00A3FF;
+    }
+
+    .mobile-menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      padding: 1rem;
+      background-color: black;
+      border-top: 1px solid #333;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover {
+      color: #00A3FF;
+    }
+
+    .footer {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid #333;
+      padding: 2.5rem 0;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a {
+      color: #9ca3af;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover {
+      color: #00A3FF;
+    }
+
+    /* Animation classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
       0% {
-        border-color: var(--neon-purple);
-        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.5);
+        transform: translateY(0px);
       }
       50% {
-        border-color: var(--neon-blue);
-        box-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 243, 255, 0.5);
+        transform: translateY(-10px);
       }
       100% {
-        border-color: var(--neon-pink);
-        box-shadow: 0 0 10px var(--neon-pink), 0 0 20px rgba(255, 0, 255, 0.5);
+        transform: translateY(0px);
       }
-    }
-    
-    .github-button:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 20px var(--neon-purple), 0 0 40px rgba(147, 51, 234, 0.5);
-    }
-    
-    .github-icon {
-      width: 32px;
-      height: 32px;
-      fill: white;
-      transition: all 0.3s ease;
-    }
-    
-    /* Cyberpunk-style decorative elements */
-    .corner-decoration {
-      position: fixed;
-      width: 150px;
-      height: 150px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.5;
-    }
-    
-    .corner-decoration.top-left {
-      top: 0;
-      left: 0;
-      border-top: 2px solid var(--neon-blue);
-      border-left: 2px solid var(--neon-blue);
-      border-top-left-radius: 10px;
-    }
-    
-    .corner-decoration.top-right {
-      top: 0;
-      right: 0;
-      border-top: 2px solid var(--neon-pink);
-      border-right: 2px solid var(--neon-pink);
-      border-top-right-radius: 10px;
-    }
-    
-    .corner-decoration.bottom-left {
-      bottom: 0;
-      left: 0;
-      border-bottom: 2px solid var(--neon-green);
-      border-left: 2px solid var(--neon-green);
-      border-bottom-left-radius: 10px;
-    }
-    
-    .corner-decoration.bottom-right {
-      bottom: 0;
-      right: 0;
-      border-bottom: 2px solid var(--neon-purple);
-      border-right: 2px solid var(--neon-purple);
-      border-bottom-right-radius: 10px;
     }
 
-    /* Responsive design */
+    .rotate-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    /* Responsive styles */
     @media (max-width: 768px) {
-      .app-name {
-        font-size: 3.5rem;
+      .container {
+        padding: 0 1rem;
       }
-      .app-slogan {
-        font-size: 1.2rem;
+
+      .navbar-menu {
+        display: none;
       }
-      .app-image-container {
-        height: 350px;
+
+      .mobile-menu-button {
+        display: block;
       }
-      .download-button {
-        padding: 0.8rem 2rem;
-        font-size: 1.2rem;
+
+      .mobile-menu.show {
+        display: block;
       }
-      .corner-decoration {
-        width: 100px;
-        height: 100px;
+
+      .grid-cols-1 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .md\:grid-cols-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .md\:grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .md\:col-span-3 {
+        grid-column: span 1;
+      }
+
+      .md\:col-span-2 {
+        grid-column: span 1;
+      }
+
+      .flex-col-mobile {
+        flex-direction: column;
+      }
+
+      .items-center-mobile {
+        align-items: center;
+      }
+
+      .text-center-mobile {
+        text-align: center;
+      }
+
+      .order-1-mobile {
+        order: 1;
+      }
+
+      .order-2-mobile {
+        order: 2;
+      }
+
+      .pt-20-mobile {
+        padding-top: 5rem;
+      }
+
+      .hidden-mobile {
+        display: none;
       }
     }
-    
-    @media (max-width: 480px) {
-      .app-name {
-        font-size: 2.5rem;
+
+    @media (min-width: 769px) {
+      .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
       }
-      .app-slogan {
-        font-size: 1rem;
+
+      .grid-cols-5 {
+        grid-template-columns: repeat(5, 1fr);
       }
-      .app-image-container {
-        height: 250px;
+
+      .md\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
       }
-      .download-button {
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
+
+      .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
       }
-      .github-button {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        right: 20px;
+
+      .md\:col-span-3 {
+        grid-column: span 3;
       }
-      .github-icon {
-        width: 25px;
-        height: 25px;
+
+      .md\:col-span-2 {
+        grid-column: span 2;
       }
-      .corner-decoration {
-        width: 70px;
-        height: 70px;
+
+      .hidden-desktop {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Enhanced Particles Background -->
-  <div id="particles-container"></div>
-  
-  <!-- Grid Background -->
-  <div class="grid-background"></div>
-  
-  <!-- Decorative Corner Elements -->
-  <div class="corner-decoration top-left"></div>
-  <div class="corner-decoration top-right"></div>
-  <div class="corner-decoration bottom-left"></div>
-  <div class="corner-decoration bottom-right"></div>
-
-  <!-- App Showcase -->
-  <div class="app-container">
-    <div class="app-header">
-      <h1 class="app-name">NEXUS</h1>
-      <p class="app-slogan">The Ultimate Productivity Solution</p>
-    </div>
-    
-    <div class="app-image-container" id="appImage">
-      <div class="parallax-layers" id="parallaxLayers">
-        <div class="app-image"></div>
-        <div class="app-image-overlay"></div>
-        <div class="app-image-glow"></div>
-        <div class="app-image-scanline"></div>
-        <div class="app-image-glitch" id="glitchEffect"></div>
+  <header class="navbar" id="navbar">
+    <div class="max-w-7xl mx-auto">
+      <div class="navbar-container">
+        <div class="flex items-center">
+          <div class="navbar-logo">
+            <span class="text-gradient">FortniteX DMA</span>
+          </div>
+          <nav class="navbar-menu ml-10 hidden-mobile">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#setup">Setup</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+        </div>
+        <div class="flex items-center">
+          <a href="#download">
+            <button class="btn btn-accent mr-4">Download</button>
+          </a>
+          <button class="mobile-menu-button" id="mobile-menu-button">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
       </div>
     </div>
-    
-    <button class="download-button">
-      <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-        <polyline points="7 10 12 15 17 10"></polyline>
-        <line x1="12" y1="15" x2="12" y2="3"></line>
-      </svg>
-      Download Now
-    </button>
-  </div>
+    <div class="mobile-menu hidden-desktop" id="mobile-menu">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#setup">Setup</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </header>
 
-  <!-- GitHub Button -->
-  <a href="https://github.com/syfer-eng" target="_blank" class="github-button">
-    <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-    </svg>
-  </a>
+  <main>
+    <!-- Hero Section -->
+    <section class="section pt-28 pb-20" id="hero">
+      <div class="bg-gradient-primary absolute inset-0"></div>
+      <div class="bg-grid-pattern absolute inset-0"></div>
+      
+      <div class="container relative">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="text-center-mobile text-left fade-in visible">
+            <h1>
+              <span class="block">Advanced</span>
+              <span class="block text-gradient">Fortnite DMA</span>
+              <span class="block">Enhancement Tool</span>
+            </h1>
+            <p class="mt-6 text-xl text-gray-400 max-w-3xl">
+              Take your gameplay to the next level with our precision-engineered DMA tool featuring advanced aimbot technology, real-time weapon detection, and seamless memory management.
+            </p>
+            <div class="mt-8 flex flex-col-mobile flex-row justify-center items-center-mobile gap-3">
+              <a href="#download">
+                <button class="btn btn-primary btn-lg mb-2">
+                  <i class="fas fa-download mr-2"></i> Download Now
+                </button>
+              </a>
+              <a href="#features">
+                <button class="btn btn-outline btn-lg">
+                  <i class="fas fa-list-check mr-2"></i> View Features
+                </button>
+              </a>
+            </div>
+          </div>
+          
+          <div class="relative hidden-mobile fade-in visible">
+            <div class="bg-gray-900 rounded-lg p-5 shadow-lg border border-gray-800 float">
+              <pre class="console-panel">
+<span class="console-comment">// FortniteX DMA Console</span>
+Starting Fortnite DMA...
+Memory class initialized
+Base address: <span class="console-value">0x7FF12345678</span>
+Keyboard initialized
+UWorld: <span class="console-value">0x1A2B3C4D5E6F</span>
+Local player: <span class="console-value">0x7A8B9C0D1E2F</span>
+Player controller: <span class="console-value">0x3F4G5H6I7J8K</span>
+Player pawn: <span class="console-value">0x9L0M1N2O3P4Q</span>
+
+<span class="console-comment">// Aimbot Status</span>
+Aimbot enabled
+Weapon projectile stats found: <span class="console-warning">Tactical Assault Rifle</span>
+Projectile speed: <span class="console-value">80000.0</span>
+Gravity scale: <span class="console-value">3.5</span>
+
+<span class="console-comment">// System Status</span>
+Memory: <span class="console-success">CONNECTED</span>
+Kernel mode: <span class="console-success">ACTIVE</span>
+Keyboard hooks: <span class="console-success">INITIALIZED</span>
+              </pre>
+            </div>
+            <div class="blur-circle blur-primary w-32 h-32 -bottom-10 -right-10"></div>
+            <div class="blur-circle blur-accent w-32 h-32 -top-10 -left-10"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section section-dark" id="features">
+      <div class="container">
+        <div class="text-center mb-12 fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-2">Powerful Features</h2>
+          <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
+            Our tool provides industry-leading functionality with unmatched precision and reliability.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8" id="features-grid">
+          <!-- Feature cards will be added dynamically with JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="text-center mb-12 fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-2">How It Works</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Our DMA tool uses advanced memory techniques to enhance your gameplay experience.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <div class="order-2-mobile order-1">
+            <div class="space-y-8" id="how-it-works-steps">
+              <!-- Steps will be added dynamically with JavaScript -->
+            </div>
+          </div>
+          
+          <div class="order-1-mobile order-2 relative fade-in">
+            <div class="bg-gray-900 rounded-lg p-5 shadow-lg border border-gray-800 relative z-10">
+              <div class="relative rounded-lg overflow-hidden w-full h-64 bg-gray-800">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-gray-600 italic">Aimbot visualization</span>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                <div class="absolute bottom-5 left-5 right-5">
+                  <div class="bg-black/90 p-4 rounded-lg border border-gray-700">
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-primary font-semibold">Aimbot Status</span>
+                      <span class="px-2 py-1 bg-accent-glow text-accent text-xs rounded-lg">
+                        ACTIVE
+                      </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <span class="text-gray-400">Target Distance:</span>
+                        <span class="ml-1 text-white">86.4m</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-400">FOV:</span>
+                        <span class="ml-1 text-white">38°</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-400">Weapon:</span>
+                        <span class="ml-1 text-white">Tactical AR</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-400">Smoothness:</span>
+                        <span class="ml-1 text-white">13.1</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="blur-circle blur-primary w-64 h-64 -bottom-10 -right-10"></div>
+            <div class="blur-circle blur-accent w-48 h-48 -top-10 -left-10"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section class="section section-dark" id="setup">
+      <div class="container">
+        <div class="text-center mb-12 fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-2">Setup Guide</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Follow these simple steps to get the DMA tool up and running.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-5 gap-6">
+          <div class="md:col-span-3 col-span-5 fade-in">
+            <div class="card">
+              <div class="card-content">
+                <h3 class="text-xl font-semibold mb-4">Installation Steps</h3>
+                
+                <div class="space-y-6" id="setup-steps">
+                  <!-- Setup steps will be added dynamically with JavaScript -->
+                </div>
+                
+                <div class="mt-8">
+                  <h3 class="text-xl font-semibold mb-4">Command Reference</h3>
+                  <div class="console-panel">
+                    <div class="mb-2 pb-2 border-b border-gray-700">
+                      <span class="console-comment">// Toggle aimbot on/off</span>
+                      <div class="text-white">NumPad 0</div>
+                    </div>
+                    <div class="mb-2 pb-2 border-b border-gray-700">
+                      <span class="console-comment">// Activate aimbot (hold)</span>
+                      <div class="text-white">Right Mouse Button</div>
+                    </div>
+                    <div>
+                      <span class="console-comment">// Modify settings in real-time</span>
+                      <div class="text-white">Edit Settings.hpp and recompile</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="md:col-span-2 col-span-5 fade-in">
+            <div class="card h-full">
+              <div class="card-content">
+                <h3 class="text-xl font-semibold mb-4">System Requirements</h3>
+                
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-semibold text-primary">Hardware</h4>
+                    <ul class="mt-2 space-y-2 text-gray-400 feature-list">
+                      <li>
+                        <i class="fas fa-microchip"></i>
+                        <span>CPU: Intel i5 8th Gen or AMD Ryzen 5 or better</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-memory"></i>
+                        <span>RAM: 8GB minimum (16GB recommended)</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-hdd"></i>
+                        <span>Storage: 100MB free space</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-plug"></i>
+                        <span>PCIe slot or M.2 slot for DMA hardware</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 class="font-semibold text-primary">Software</h4>
+                    <ul class="mt-2 space-y-2 text-gray-400 feature-list">
+                      <li>
+                        <i class="fab fa-windows"></i>
+                        <span>Windows 10/11 64-bit</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-code"></i>
+                        <span>Visual Studio 2019/2022</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Administrator privileges</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-tools"></i>
+                        <span>C++ build tools & SDK</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class="p-4 bg-[#FFB800]/10 rounded-lg border border-[#FFB800]/20 mt-6">
+                    <h4 class="font-semibold text-warning flex items-center">
+                      <i class="fas fa-exclamation-triangle mr-2"></i>
+                      Important Note
+                    </h4>
+                    <p class="mt-2 text-gray-400 text-sm">
+                      You must disable secure boot in your BIOS and disable anti-cheat software for the DMA tool to function properly. Use at your own risk as this may violate game terms of service.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="section relative" id="download">
+      <div class="bg-grid-pattern absolute inset-0 opacity-30"></div>
+      
+      <div class="container relative z-10">
+        <div class="bg-gray-900 border border-gray-700 rounded-2xl p-8 max-w-4xl mx-auto fade-in">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold mb-3">Ready to Download</h2>
+            <p class="text-gray-400 text-lg">
+              Get the latest version of our DMA tool and revolutionize your gaming experience.
+            </p>
+          </div>
+          
+          <div class="flex flex-col-mobile md:flex-row items-center justify-center gap-6">
+            <div class="w-full bg-black/40 rounded-lg p-5 border border-gray-800 fade-in">
+              <h3 class="text-lg font-semibold mb-2 text-primary">Tool Package</h3>
+              <p class="text-gray-400 text-sm mb-4">
+                Includes the complete software suite with source code and documentation.
+              </p>
+              <ul class="text-sm text-gray-400 space-y-2 mb-5 feature-list">
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Full source code</span>
+                </li>
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Visual Studio project</span>
+                </li>
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Documentation & guides</span>
+                </li>
+              </ul>
+              <button class="btn btn-primary w-full py-6">
+                <i class="fas fa-download mr-2"></i> Download Source (12.5 MB)
+              </button>
+            </div>
+            
+            <div class="w-full bg-black/40 rounded-lg p-5 border border-gray-800 fade-in">
+              <h3 class="text-lg font-semibold mb-2 text-accent">DMA Driver Package</h3>
+              <p class="text-gray-400 text-sm mb-4">
+                Required drivers for DMA hardware and kernel integration.
+              </p>
+              <ul class="text-sm text-gray-400 space-y-2 mb-5 feature-list">
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Hardware drivers</span>
+                </li>
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Kernel-level components</span>
+                </li>
+                <li>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Installation wizard</span>
+                </li>
+              </ul>
+              <button class="btn btn-accent w-full py-6">
+                <i class="fas fa-download mr-2"></i> Download Drivers (8.2 MB)
+              </button>
+            </div>
+          </div>
+          
+          <div class="mt-8 p-4 bg-gray-900/80 rounded-lg border border-gray-700 fade-in">
+            <p class="text-sm text-gray-400 text-center">
+              By downloading, you acknowledge that use of this tool may violate game terms of service. 
+              We are not responsible for any account actions or bans that may result.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section section-dark" id="faq">
+      <div class="container">
+        <div class="text-center mb-12 fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-2">Frequently Asked Questions</h2>
+          <p class="text-gray-400 text-lg">Get answers to common questions about our DMA tool.</p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto">
+          <div class="space-y-4" id="faq-container">
+            <!-- FAQ items will be added dynamically with JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="flex flex-col-mobile md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0 text-center-mobile text-left">
+          <div class="text-2xl font-bold text-gradient">FortniteX DMA</div>
+          <p class="text-gray-400 mt-2 text-sm">Advanced memory access technology for Fortnite</p>
+        </div>
+        
+        <div class="flex flex-col items-center md:items-end">
+          <div class="social-links mb-4">
+            <a href="#"><i class="fab fa-discord text-xl"></i></a>
+            <a href="#"><i class="fab fa-github text-xl"></i></a>
+            <a href="#"><i class="fab fa-telegram text-xl"></i></a>
+          </div>
+          <p class="text-gray-400 text-sm text-center md:text-right">
+            &copy; <span id="current-year"></span> FortniteX DMA. For educational purposes only.<br>
+            Not affiliated with Epic Games or Fortnite.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    // Enhanced particles system
-    const particlesContainer = document.getElementById('particles-container');
-    const particleCount = 100; // Increased number of particles
-    
-    // Create initial particles
-    for (let i = 0; i < particleCount; i++) {
-      createParticle();
-    }
-    
-    function createParticle() {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      // Enhanced random properties
-      const size = Math.random() * 8 + 2; // Particle size between 2-10px
-      const posX = Math.random() * 100; // Position X (%)
-      const drift = Math.random() * 10 - 5; // Horizontal drift (-5 to 5)
-      const duration = Math.random() * 20 + 15; // Animation duration 15-35s
-      const delay = Math.random() * 10; // Animation delay 0-10s
-      
-      // Enhanced color palette
-      const colors = [
-        'rgba(147, 51, 234, 0.7)',  // Purple
-        'rgba(0, 243, 255, 0.7)',    // Blue
-        'rgba(255, 0, 255, 0.7)',    // Pink
-        'rgba(57, 255, 20, 0.7)',    // Green
-        'rgba(59, 130, 246, 0.7)'    // Another blue
-      ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      // Apply styles
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.left = `${posX}%`;
-      particle.style.bottom = `-${size}px`;
-      particle.style.backgroundColor = color;
-      particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
-      particle.style.opacity = (Math.random() * 0.3 + 0.1).toString(); // Opacity 0.1-0.4
-      particle.style.animationDuration = `${duration}s`;
-      particle.style.animationDelay = `${delay}s`;
-      particle.style.setProperty('--drift', drift);
-      
-      particlesContainer.appendChild(particle);
-      
-      // Remove and recreate particle after animation
-      particle.addEventListener('animationend', function() {
-        particle.remove();
-        createParticle();
-      });
-    }
-    
-    // Enhanced parallax effect for the app image
-    const appImage = document.getElementById('appImage');
-    const parallaxLayers = document.getElementById('parallaxLayers');
-    
-    // Track mouse movement over the image with enhanced sensitivity
-    appImage.addEventListener('mousemove', function(e) {
-      // Get position of mouse relative to the center of the element
-      const rect = appImage.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      // Calculate offset from center in percentage (-50 to 50)
-      const offsetX = ((e.clientX - centerX) / rect.width) * 100;
-      const offsetY = ((e.clientY - centerY) / rect.height) * 100;
-      
-      // Enhanced movement for more dramatic effect
-      parallaxLayers.style.transform = `translate(${-offsetX / 3}px, ${-offsetY / 3}px) rotateX(${offsetY / 8}deg) rotateY(${-offsetX / 8}deg) scale(1.05)`;
-    });
-    
-    // Reset position when mouse leaves
-    appImage.addEventListener('mouseleave', function() {
-      parallaxLayers.style.transform = 'translate(0, 0) rotateX(0) rotateY(0) scale(1)';
-    });
-    
-    // Add subtle animation when the image is hovered
-    appImage.addEventListener('mouseenter', function() {
-      parallaxLayers.style.transition = 'transform 0.2s ease-out';
-    });
-    
-    // Create glitch effect
-    const glitchEffect = document.getElementById('glitchEffect');
-    
-    function createGlitchLines() {
-      // Clear previous lines
-      glitchEffect.innerHTML = '';
-      
-      // Create random number of glitch lines
-      const lineCount = Math.floor(Math.random() * 5) + 3;
-      
-      for (let i = 0; i < lineCount; i++) {
-        const line = document.createElement('div');
-        line.classList.add('glitch-line');
-        
-        // Random position and height
-        const posY = Math.random() * 100;
-        const height = Math.random() * 3 + 1;
-        
-        // Apply styles
-        line.style.top = `${posY}%`;
-        line.style.height = `${height}px`;
-        line.style.opacity = Math.random() * 0.7 + 0.3;
-        
-        glitchEffect.appendChild(line);
-        
-        // Animate the line
-        setTimeout(() => {
-          line.style.opacity = 0;
-        }, Math.random() * 200 + 50);
+    // Data for dynamic content
+    const features = [
+      {
+        icon: "fas fa-crosshairs",
+        title: "Advanced Aimbot",
+        description: "Precision-engineered aimbot with PID controller for smooth tracking and adjustable parameters.",
+        benefits: [
+          "Dynamic FOV adjustment based on weapon",
+          "Smoothable aim with configurable parameters",
+          "Target prioritization based on distance"
+        ],
+        iconColor: "text-primary",
+        bgColor: "bg-primary-glow"
+      },
+      {
+        icon: "fas fa-gun",
+        title: "Weapon Detection",
+        description: "Real-time weapon detection with automatic projectile and ballistic calculations.",
+        benefits: [
+          "Auto-detection of current weapon",
+          "Projectile speed & gravity compensation",
+          "Support for all major Fortnite weapons"
+        ],
+        iconColor: "text-accent",
+        bgColor: "bg-accent-glow"
+      },
+      {
+        icon: "fas fa-microchip",
+        title: "DMA Integration",
+        description: "Direct Memory Access integration with kernel-level operation for maximum performance.",
+        benefits: [
+          "Optimized memory operations",
+          "Scatter read/write for performance",
+          "Low CPU & memory footprint"
+        ],
+        iconColor: "text-primary",
+        bgColor: "bg-primary-glow"
+      },
+      {
+        icon: "fas fa-keyboard",
+        title: "Keyboard Controls",
+        description: "Full keyboard integration with customizable hotkeys for all features.",
+        benefits: [
+          "Right-click activation for aimbot",
+          "NumPad 0 to toggle aimbot on/off",
+          "Low-level keyboard hooks for reliability"
+        ],
+        iconColor: "text-accent",
+        bgColor: "bg-accent-glow"
+      },
+      {
+        icon: "fas fa-chart-line",
+        title: "Performance Optimized",
+        description: "High-performance code with minimal system impact and real-time monitoring.",
+        benefits: [
+          "Multi-threaded operation",
+          "Performance monitoring & logging",
+          "Thread-safe data access"
+        ],
+        iconColor: "text-primary",
+        bgColor: "bg-primary-glow"
+      },
+      {
+        icon: "fas fa-shield-alt",
+        title: "Memory Safety",
+        description: "Advanced memory validation and error handling for stable operation.",
+        benefits: [
+          "Address validation to prevent crashes",
+          "Exception handling for stability",
+          "Mutex-based thread synchronization"
+        ],
+        iconColor: "text-accent",
+        bgColor: "bg-accent-glow"
       }
-    }
-    
-    // Trigger glitch effect randomly
-    function triggerGlitch() {
-      if (Math.random() > 0.7) {
-        createGlitchLines();
-        
-        // Add temporary filter to the image
-        const appImage = document.querySelector('.app-image');
-        appImage.style.filter = 'brightness(1.2) contrast(1.5) hue-rotate(5deg)';
-        
-        setTimeout(() => {
-          appImage.style.filter = 'brightness(0.8) saturate(1.8) contrast(1.2)';
-        }, 100);
+    ];
+
+    const howItWorksSteps = [
+      {
+        number: 1,
+        title: "Memory Initialization",
+        description: "Our tool securely connects to Fortnite's memory space using our proprietary DMA technology, establishing a kernel-level connection for optimal performance and reliability."
+      },
+      {
+        number: 2,
+        title: "Player & Entity Detection",
+        description: "The system scans memory for player entities, extracting crucial information like position, bone matrices, and player state to build a comprehensive real-time map of the game environment."
+      },
+      {
+        number: 3,
+        title: "Weapon Analysis",
+        description: "The tool automatically detects your current weapon and loads the appropriate ballistic profile, adjusting for projectile speed and gravity to ensure perfect accuracy at any distance."
+      },
+      {
+        number: 4,
+        title: "PID Controller Aimbot",
+        description: "Our advanced PID controller provides smooth, natural aiming assistance by calculating the optimal rate of movement based on target distance, velocity, and weapon characteristics."
       }
+    ];
+
+    const setupSteps = [
+      {
+        number: 1,
+        title: "Hardware Setup",
+        description: "Connect your DMA hardware to an available PCIe slot or M.2 slot on your computer. Ensure it's properly seated."
+      },
+      {
+        number: 2,
+        title: "Driver Installation",
+        description: "Download and install the driver package. You'll need to run the installer with administrator privileges."
+      },
+      {
+        number: 3,
+        title: "Compile the Tool",
+        description: "Build the solution in Visual Studio using x64 Release configuration. Ensure all dependencies are properly linked."
+      },
+      {
+        number: 4,
+        title: "Run the Tool",
+        description: "Start Fortnite first, then run the compiled tool as administrator. It will automatically connect to the game."
+      },
+      {
+        number: 5,
+        title: "Configure Settings",
+        description: "Adjust settings in the tool interface or by modifying the Settings.hpp file to customize aimbot behavior and visual preferences."
+      }
+    ];
+
+    const faqs = [
+      {
+        question: "Is this tool detectable by anti-cheat systems?",
+        answer: "Our DMA tool operates at the hardware level, bypassing traditional anti-cheat detection methods. However, no tool can claim to be 100% undetectable. The risk is minimized compared to traditional software-based tools, but users should understand that any modification carries some risk."
+      },
+      {
+        question: "What hardware do I need for DMA functionality?",
+        answer: "You need specialized DMA hardware that connects to your PCIe or M.2 slot. These devices are available from various providers and range in price from $100-$500 depending on features and performance. Our tool is compatible with most major DMA devices on the market."
+      },
+      {
+        question: "Do I need to compile the code myself?",
+        answer: "Yes, you need to compile the code using Visual Studio. This provides several advantages: the code can be customized to your specific needs, it reduces detection risk compared to widespread binaries, and ensures you understand how the tool works."
+      },
+      {
+        question: "How do I adjust aimbot sensitivity and settings?",
+        answer: "Settings can be adjusted in the Settings.hpp file. The key parameters to modify are:<br>- aimbot::fov - Controls the field of view for target acquisition<br>- aimbot::smoothness - Adjusts how gradually the aim moves (higher = smoother)<br>- PID controller values (ki, kd variables) - Fine-tune the aiming algorithm<br><br>After changing settings, you need to recompile the program for changes to take effect."
+      },
+      {
+        question: "Does this work with the latest Fortnite update?",
+        answer: "We regularly update our offsets and code to match the latest Fortnite patches. However, after major updates, there might be a brief period where adjustments are needed. The weapon database is comprehensive and includes most weapons in the current meta."
+      }
+    ];
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
       
-      // Schedule next glitch
-      setTimeout(triggerGlitch, Math.random() * 3000 + 1000);
-    }
-    
-    // Start glitch effect
-    triggerGlitch();
-    
-    // GitHub button animation
-    const githubButton = document.querySelector('.github-button');
-    
-    githubButton.addEventListener('mouseenter', function() {
-      this.querySelector('.github-icon').style.transform = 'rotate(360deg) scale(1.2)';
-    });
-    
-    githubButton.addEventListener('mouseleave', function() {
-      this.querySelector('.github-icon').style.transform = 'rotate(0) scale(1)';
-    });
-    
-    // Add interactive hover effect to download button
-    const downloadButton = document.querySelector('.download-button');
-    
-    downloadButton.addEventListener('mousemove', function(e) {
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      // Initialize mobile menu
+      initializeMobileMenu();
       
-      // Create radial gradient that follows cursor
-      this.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--neon-pink), var(--neon-purple) 60%, var(--neon-blue))`;
+      // Initialize navbar scrolling effect
+      initializeNavbarScroll();
+      
+      // Populate dynamic content
+      populateFeatures();
+      populateHowItWorksSteps();
+      populateSetupSteps();
+      populateFaqs();
+      
+      // Initialize fade-in animations
+      initializeFadeInAnimations();
+      
+      // Add smooth scrolling for anchor links
+      initializeSmoothScrolling();
     });
-    
-    downloadButton.addEventListener('mouseleave', function() {
-      // Reset to original gradient
-      this.style.background = 'linear-gradient(45deg, var(--neon-purple), var(--neon-blue), var(--neon-pink))';
-      this.style.backgroundSize = '200% 200%';
-    });
-    
-    // Add pulse animation to corner decorations
-    const cornerDecorations = document.querySelectorAll('.corner-decoration');
-    
-    cornerDecorations.forEach((corner, index) => {
-      // Add staggered animation
-      corner.style.animation = `cornerPulse 3s ${index * 0.5}s infinite alternate`;
-    });
-    
-    // Create keyframe animation for corners
-    const styleSheet = document.styleSheets[0];
-    styleSheet.insertRule(`
-      @keyframes cornerPulse {
-        0% {
-          opacity: 0.3;
-          box-shadow: none;
+
+    // Mobile menu functionality
+    function initializeMobileMenu() {
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      mobileMenuButton.addEventListener('click', function() {
+        if (mobileMenu.classList.contains('hidden-desktop')) {
+          mobileMenu.style.display = 'block';
+          mobileMenuButton.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+          mobileMenu.style.display = 'none';
+          mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
         }
-        100% {
-          opacity: 0.7;
-          box-shadow: 0 0 15px currentColor;
-        }
-      }
-    `, styleSheet.cssRules.length);
-    
-    // Add interactive grid background effect
-    const gridBackground = document.querySelector('.grid-background');
-    
-    document.addEventListener('mousemove', function(e) {
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      
-      // Subtle perspective shift based on mouse position
-      gridBackground.style.transform = `perspective(1000px) rotateX(${y * 5 - 2.5}deg) rotateY(${x * 5 - 2.5}deg)`;
-    });
-    
-    // Add scroll-triggered animations
-    window.addEventListener('scroll', function() {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      // Adjust particle speed based on scroll
-      const particles = document.querySelectorAll('.particle');
-      particles.forEach(particle => {
-        const speed = 1 + (scrollPosition / windowHeight) * 0.5;
-        particle.style.animationDuration = `${parseFloat(particle.style.animationDuration) / speed}s`;
       });
       
-      // Parallax effect for app container
-      const appContainer = document.querySelector('.app-container');
-      appContainer.style.transform = `translateY(${scrollPosition * 0.1}px)`;
-    });
-    
-    // Add typing effect to slogan
-    const slogan = document.querySelector('.app-slogan');
-    const sloganText = slogan.textContent;
-    slogan.textContent = '';
-    
-    function typeSlogan(index = 0) {
-      if (index < sloganText.length) {
-        slogan.textContent += sloganText.charAt(index);
-        setTimeout(() => typeSlogan(index + 1), 50);
-      }
+      // Close mobile menu when clicking on a link
+      const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+      mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenu.style.display = 'none';
+          mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
     }
-    
-    // Start typing effect after a short delay
-    setTimeout(typeSlogan, 1000);
-    
-    // Add click effect to download button
-    downloadButton.addEventListener('click', function(e) {
-      // Create ripple effect
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
-      this.appendChild(ripple);
+
+    // Navbar scroll effect
+    function initializeNavbarScroll() {
+      const navbar = document.getElementById('navbar');
       
-      const rect = this.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      
-      ripple.style.width = ripple.style.height = `${size}px`;
-      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-      
-      ripple.classList.add('active');
-      
-      setTimeout(() => {
-        ripple.remove();
-      }, 500);
-      
-      // Add download animation
-      const downloadIcon = this.querySelector('svg');
-      downloadIcon.style.animation = 'downloadStart 1s forwards';
-      
-      // Reset animation after completion
-      setTimeout(() => {
-        downloadIcon.style.animation = 'bounce 2s infinite';
-      }, 1000);
-    });
-    
-    // Add ripple style
-    styleSheet.insertRule(`
-      .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.3);
-        transform: scale(0);
-        animation: ripple 0.5s linear;
-        pointer-events: none;
-      }
-    `, styleSheet.cssRules.length);
-    
-    styleSheet.insertRule(`
-      @keyframes ripple {
-        to {
-          transform: scale(2);
-          opacity: 0;
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 10) {
+          navbar.classList.add('navbar-scrolled');
+        } else {
+          navbar.classList.remove('navbar-scrolled');
         }
-      }
-    `, styleSheet.cssRules.length);
-    
-    styleSheet.insertRule(`
-      @keyframes downloadStart {
-        0% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(5px);
-        }
-        100% {
-          transform: translateY(0);
-        }
-      }
-    `, styleSheet.cssRules.length);
-    
-    // Create random star effect in the background
-    function createStars() {
-      const starsContainer = document.createElement('div');
-      starsContainer.classList.add('stars-container');
-      starsContainer.style.position = 'fixed';
-      starsContainer.style.top = '0';
-      starsContainer.style.left = '0';
-      starsContainer.style.width = '100%';
-      starsContainer.style.height = '100%';
-      starsContainer.style.pointerEvents = 'none';
-      starsContainer.style.zIndex = '-1';
-      document.body.appendChild(starsContainer);
-      
-      for (let i = 0; i < 50; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        
-        // Random position
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        
-        // Random size
-        const size = Math.random() * 2 + 1;
-        
-        // Apply styles
-        star.style.position = 'absolute';
-        star.style.left = `${posX}%`;
-        star.style.top = `${posY}%`;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.borderRadius = '50%';
-        star.style.backgroundColor = 'white';
-        star.style.opacity = Math.random() * 0.5 + 0.3;
-        
-        // Add twinkling animation
-        star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite alternate`;
-        
-        starsContainer.appendChild(star);
-      }
-      
-      // Add twinkling animation
-      styleSheet.insertRule(`
-        @keyframes twinkle {
-          0% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          100% {
-            opacity: 0.8;
-            transform: scale(1.2);
-          }
-        }
-      `, styleSheet.cssRules.length);
+      });
     }
-    
-    createStars();
+
+    // Populate features section
+    function populateFeatures() {
+      const featuresGrid = document.getElementById('features-grid');
+      
+      features.forEach((feature, index) => {
+        const featureCard = document.createElement('div');
+        featureCard.className = 'fade-in';
+        featureCard.setAttribute('data-delay', (index * 0.1).toString());
+        
+        featureCard.innerHTML = `
+          <div class="card">
+            <div class="card-content">
+              <div class="feature-icon ${feature.bgColor}">
+                <i class="${feature.icon} ${feature.iconColor} text-xl"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-2">${feature.title}</h3>
+              <p class="text-gray-400 mb-4">${feature.description}</p>
+              <ul class="text-sm text-gray-400 space-y-2 feature-list">
+                ${feature.benefits.map(benefit => `
+                  <li>
+                    <i class="fas fa-check"></i>
+                    <span>${benefit}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+        
+        featuresGrid.appendChild(featureCard);
+      });
+    }
+
+    // Populate how it works steps
+    function populateHowItWorksSteps() {
+      const stepsContainer = document.getElementById('how-it-works-steps');
+      
+      howItWorksSteps.forEach((step, index) => {
+        const stepCard = document.createElement('div');
+        stepCard.className = 'card fade-in';
+        stepCard.setAttribute('data-delay', (index * 0.1).toString());
+        
+        stepCard.innerHTML = `
+          <div class="card-content">
+            <h3 class="text-xl font-semibold mb-3 flex items-center">
+              <span class="bg-primary-glow w-8 h-8 rounded-full flex items-center justify-center mr-3 text-primary">
+                ${step.number}
+              </span>
+              ${step.title}
+            </h3>
+            <p class="text-gray-400">${step.description}</p>
+          </div>
+        `;
+        
+        stepsContainer.appendChild(stepCard);
+      });
+    }
+
+    // Populate setup steps
+    function populateSetupSteps() {
+      const setupStepsContainer = document.getElementById('setup-steps');
+      
+      setupSteps.forEach((step, index) => {
+        const stepElement = document.createElement('div');
+        stepElement.className = 'setup-step fade-in';
+        stepElement.setAttribute('data-delay', (index * 0.1).toString());
+        
+        stepElement.innerHTML = `
+          <div class="setup-step-number">
+            ${step.number}
+          </div>
+          <div>
+            <h4 class="font-semibold">${step.title}</h4>
+            <p class="text-gray-400 mt-1">${step.description}</p>
+          </div>
+        `;
+        
+        setupStepsContainer.appendChild(stepElement);
+      });
+    }
+
+    // Populate FAQs
+    function populateFaqs() {
+      const faqContainer = document.getElementById('faq-container');
+      
+      faqs.forEach((faq, index) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item fade-in';
+        faqItem.setAttribute('data-delay', (index * 0.1).toString());
+        
+        faqItem.innerHTML = `
+          <button class="faq-question">
+            <h3>${faq.question}</h3>
+            <i class="fas fa-chevron-down rotate-icon"></i>
+          </button>
+          <div class="faq-answer hidden">
+            <p>${faq.answer}</p>
+          </div>
+        `;
+        
+        faqContainer.appendChild(faqItem);
+        
+        // Add click event
+        const questionButton = faqItem.querySelector('.faq-question');
+        const answerDiv = faqItem.querySelector('.faq-answer');
+        const icon = questionButton.querySelector('.rotate-icon');
+        
+        questionButton.addEventListener('click', function() {
+          if (answerDiv.classList.contains('hidden')) {
+            answerDiv.classList.remove('hidden');
+            icon.classList.add('rotate-180');
+          } else {
+            answerDiv.classList.add('hidden');
+            icon.classList.remove('rotate-180');
+          }
+        });
+      });
+    }
+
+    // Initialize fade-in animations
+    function initializeFadeInAnimations() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const delay = entry.target.getAttribute('data-delay') || '0';
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, parseFloat(delay) * 1000);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeElements.forEach(element => {
+        observer.observe(element);
+      });
+    }
+
+    // Initialize smooth scrolling for anchor links
+    function initializeSmoothScrolling() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.getBoundingClientRect().top + window.scrollY - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    }
   </script>
 </body>
 </html>
